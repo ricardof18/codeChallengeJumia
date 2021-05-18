@@ -26,12 +26,7 @@
 <h1 style="text-align: center">Code Chalenge Jumia</h1>
 <div>
     <select name="country" id="country">
-        <option selected="selected" value="All">All</option>
-        <option value="(212)">Morocco</option>
-        <option value="(258)">Mozambique</option>
-        <option value="(256)">Uganda</option>
-        <option value="(251)">Ethiopia</option>
-        <option value="(237)">Cameroon</option>
+
     </select>
 
     <select name="state" id="state">
@@ -81,6 +76,24 @@
                             temp += "<td>" + itemData.state + "</td></tr>";
                         });
                         document.getElementById('data').innerHTML = temp;
+                    }
+                }
+            )
+        }
+    )
+    fetch("http://localhost:8080/countries").then(
+        res => {
+            res.json().then(
+                data => {
+                    console.log(data);
+                    if (data.length > 0) {
+
+                        var temp = "";
+                        temp += "<option selected=\"selected\" value=\"All\">All</option>";
+                        data.forEach((itemData) => {
+                            temp += "<option value="+itemData.countrycode+">"+itemData.countryname+"</option>";
+                        });
+                        document.getElementById('country').innerHTML = temp;
                     }
                 }
             )
