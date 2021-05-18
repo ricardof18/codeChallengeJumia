@@ -1,0 +1,216 @@
+<!DOCTYPE HTML>
+<html>
+<style>
+    table, td, th {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        border : 1px solid black;
+        border-collapse: separate
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 80%;
+    }
+
+    th, td {
+        padding: 15px;
+    }
+</style>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<br>
+<h1 style="text-align: center">Code Chalenge Jumia</h1>
+<div>
+    <select name="country" id="country">
+        <option selected="selected" value="All">All</option>
+        <option value="(212)">Morocco</option>
+        <option value="(258)">Mozambique</option>
+        <option value="(256)">Uganda</option>
+        <option value="(251)">Ethiopia</option>
+        <option value="(237)">Cameroon</option>
+    </select>
+
+    <select name="state" id="state">
+        <option selected="selected" value="All">All</option>
+        <option value=true>Valid</option>
+        <option value=false>Not Valid</option>
+    </select>
+    <button onclick=searchCountry()>Selecionar</button>
+    <button onclick=filterClean()>Limpar Filtro</button>
+</div>
+<br>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Number</th>
+        <th>Country</th>
+        <th>CountryCode</th>
+        <th>State</th>
+    </tr>
+    </thead>
+    <tbody id="data">
+
+    </tbody>
+</table>
+</div>
+<div>
+
+</div>
+</body>
+<script>
+
+    fetch("http://localhost:8080/phones").then(
+        res => {
+            res.json().then(
+                data => {
+                    console.log(data);
+                    if (data.length > 0) {
+
+                        var temp = "";
+                        data.forEach((itemData) => {
+                            temp += "<tr>";
+                            temp += "<td>" + itemData.name + "</td>";
+                            temp += "<td>" + itemData.number + "</td>";
+                            temp += "<td>" + itemData.country + "</td>";
+                            temp += "<td>" + itemData.countrycode + "</td>";
+                            temp += "<td>" + itemData.state + "</td></tr>";
+                        });
+                        document.getElementById('data').innerHTML = temp;
+                    }
+                }
+            )
+        }
+    )
+    function searchCountry(){
+        countryCode=document.getElementById("country").value
+        state=document.getElementById("state").value
+
+        if(state==='All' && countryCode!=='All') {
+            fetch("http://localhost:8080/phonesByCountry?countryCode=" + countryCode).then(
+                res => {
+                    res.json().then(
+                        data => {
+                            console.log(data);
+                            if (data.length > 0) {
+
+                                var temp = "";
+                                data.forEach((itemData) => {
+                                    temp += "<tr>";
+                                    temp += "<td>" + itemData.name + "</td>";
+                                    temp += "<td>" + itemData.number + "</td>";
+                                    temp += "<td>" + itemData.country + "</td>";
+                                    temp += "<td>" + itemData.countrycode + "</td>";
+                                    temp += "<td>" + itemData.state + "</td></tr>";
+                                });
+                                document.getElementById('data').innerHTML = temp;
+                            }
+                        }
+                    )
+                }
+            )
+        }
+        else if (state!=="All" && countryCode==="All"){
+            fetch("http://localhost:8080/phonesByState?state=" + state).then(
+                res => {
+                    res.json().then(
+                        data => {
+                            console.log(data);
+                            if (data.length > 0) {
+
+                                var temp = "";
+                                data.forEach((itemData) => {
+                                    temp += "<tr>";
+                                    temp += "<td>" + itemData.name + "</td>";
+                                    temp += "<td>" + itemData.number + "</td>";
+                                    temp += "<td>" + itemData.country + "</td>";
+                                    temp += "<td>" + itemData.countrycode + "</td>";
+                                    temp += "<td>" + itemData.state + "</td></tr>";
+                                });
+                                document.getElementById('data').innerHTML = temp;
+                            }
+                        }
+                    )
+                }
+            )
+        }
+        else if( state!=='All' && countryCode!=="All"){
+            fetch("http://localhost:8080/phonesByCountryAndState?countryCode=" + countryCode+"&state="+state).then(
+                res => {
+                    res.json().then(
+                        data => {
+                            console.log(data);
+                            if (data.length > 0) {
+
+                                var temp = "";
+                                data.forEach((itemData) => {
+                                    temp += "<tr>";
+                                    temp += "<td>" + itemData.name + "</td>";
+                                    temp += "<td>" + itemData.number + "</td>";
+                                    temp += "<td>" + itemData.country + "</td>";
+                                    temp += "<td>" + itemData.countrycode + "</td>";
+                                    temp += "<td>" + itemData.state + "</td></tr>";
+                                });
+                                document.getElementById('data').innerHTML = temp;
+                            }
+                        }
+                    )
+                }
+            )
+        }
+        else{
+            fetch("http://localhost:8080/phones").then(
+                res => {
+                    res.json().then(
+                        data => {
+                            console.log(data);
+                            if (data.length > 0) {
+
+                                var temp = "";
+                                data.forEach((itemData) => {
+                                    temp += "<tr>";
+                                    temp += "<td>" + itemData.name + "</td>";
+                                    temp += "<td>" + itemData.number + "</td>";
+                                    temp += "<td>" + itemData.country + "</td>";
+                                    temp += "<td>" + itemData.countrycode + "</td>";
+                                    temp += "<td>" + itemData.state + "</td></tr>";
+                                });
+                                document.getElementById('data').innerHTML = temp;
+                            }
+                        }
+                    )
+                }
+            )
+        }
+    }
+
+    function filterClean(){
+        fetch("http://localhost:8080/phones").then(
+            res => {
+                res.json().then(
+                    data => {
+                        console.log(data);
+                        if (data.length > 0) {
+
+                            var temp = "";
+                            data.forEach((itemData) => {
+                                temp += "<tr>";
+                                temp += "<td>" + itemData.name + "</td>";
+                                temp += "<td>" + itemData.number + "</td>";
+                                temp += "<td>" + itemData.country + "</td>";
+                                temp += "<td>" + itemData.countrycode + "</td>";
+                                temp += "<td>" + itemData.state + "</td></tr>";
+                            });
+                            document.getElementById('data').innerHTML = temp;
+                        }
+                    }
+                )
+            }
+        )
+    }
+</script>
+</html>
