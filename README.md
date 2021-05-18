@@ -2,7 +2,7 @@
 
 1-> Open pom.xml with IDE.
 
-2-> Run
+2-> Run Spring Application
 
 3-> Open http: // localhost: 8080
 
